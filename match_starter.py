@@ -58,6 +58,8 @@ def generate_match_id():
 
 if __name__ == '__main__':
 
+    print(os.environ.get(REDIS_ADDRESS_KEY))
+
     REDIS_ADDRESS = os.environ.get(
         REDIS_ADDRESS_KEY,
         DEFAULT_REDIS_ADDRESS

@@ -7,6 +7,9 @@ from gloop.channels.redis import RedisChannel as channel_factory
 
 from gloop import transform_loop
 
+REDIS_ADDRESS_KEY = 'REDIS_ADDRESS'
+DEFAULT_REDIS_ADDRESS = 'redis://localhost:6379'
+
 WAITING_LIST_CHANNEL_NAME_KEY = 'WAITING_LIST_CHANNEL_NAME'
 DEFAULT_WAITING_LIST_CHANNEL_NAME = 'waiting_list'
 
@@ -55,6 +58,11 @@ def generate_match_id():
 
 if __name__ == '__main__':
 
+    REDIS_ADDRESS = os.environ.get(
+        REDIS_ADDRESS_KEY,
+        DEFAULT_REDIS_ADDRESS
+    )
+
     WAITING_LIST_CHANNEL_NAME = os.environ.get(
         WAITING_LIST_CHANNEL_NAME_KEY,
         DEFAULT_WAITING_LIST_CHANNEL_NAME
@@ -70,8 +78,14 @@ if __name__ == '__main__':
         DEFAULT_MATCH_SIZE
     )
 
-    _waiting_list = channel_factory(WAITING_LIST_CHANNEL_NAME)
-    _new_matches = channel_factory(NEW_MATCHES_CHANNEL_NAME)
+    _waiting_list = channel_factory(
+        WAITING_LIST_CHANNEL_NAME,
+        address=REDIS_ADDRESS
+    )
+    _new_matches = channel_factory(
+        NEW_MATCHES_CHANNEL_NAME,
+        address=REDIS_ADDRESS
+    )
 
     asyncio.run(
         collect_players_loop(

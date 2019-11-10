@@ -9,5 +9,4 @@ RUN pip install git+https://github.com/pitzer42/gloop-lib.git
 RUN pip install -r requirements.txt
 RUN rm requirements.txt
 
-# CMD ["python", "match_starter.py"]
-CMD ["ping", "0.0.0.0"]
+CMD ["python", "match_starter.py"]
